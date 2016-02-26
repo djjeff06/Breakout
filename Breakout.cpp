@@ -1,5 +1,6 @@
 #include "Breakout.h"
 #include "EndWorld.h"
+#include "SimpleAudioEngine.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -31,6 +32,9 @@ bool Breakout::init() {
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Point origin = Director::getInstance()->getVisibleOrigin();
+
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->playBackgroundMusic("Besaid Island Theme.mp3", true);
 	
 	start = false;
 	check = true;
@@ -173,7 +177,7 @@ bool Breakout::init() {
 	contactListener->onContactBegin = CC_CALLBACK_1(Breakout::onContactBegin, this);
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	eventListener->onKeyPressed = [platform,yellowbrick1,yellowbrick2,greenbrick1,greenbrick2,orangebrick1,orangebrick2,redbrick1,redbrick2,lbl_score,lbl_life,this](EventKeyboard::KeyCode keyCode, Event* event) {
+	eventListener->onKeyPressed = [platform,yellowbrick1,yellowbrick2,greenbrick1,greenbrick2,orangebrick1,orangebrick2,redbrick1,redbrick2,lbl_score,lbl_life,audio,this](EventKeyboard::KeyCode keyCode, Event* event) {
 
 		Vec2 loc = event->getCurrentTarget()->getPosition();
 
@@ -218,6 +222,7 @@ bool Breakout::init() {
 				auto removeBrick = CallFunc::create([yellowbrick1,yellowbrick2,greenbrick1,greenbrick2,orangebrick1,orangebrick2,redbrick1,redbrick2,ball,lbl_score,this]() {
 
 					float distance;
+					auto effect = CocosDenshion::SimpleAudioEngine::getInstance();
 
 					for (int i = 0; i < 14; i++) {
 
@@ -236,6 +241,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 						
@@ -254,6 +260,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -272,6 +279,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -290,6 +298,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -308,6 +317,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -326,6 +336,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -344,6 +355,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -361,6 +373,7 @@ bool Breakout::init() {
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
 							bricks--;
+							effect->playEffect("Arcade Bloop Sound Effect.mp3", false, 1.0f, 1.0f, 1.0f);
 
 						}
 
@@ -368,7 +381,7 @@ bool Breakout::init() {
 
 				});
 
-				auto lifeDecrease = CallFunc::create([ball,lbl_life,this]() {
+				auto lifeDecrease = CallFunc::create([ball,lbl_life,audio,this]() {
 
 					if (ball->getPositionY() < 0 &&	start == true) {
 
@@ -392,6 +405,7 @@ bool Breakout::init() {
 
 							}
 
+							//audio->stopBackgroundMusic();
 							Director::getInstance()->replaceScene(scene);
 
 						}

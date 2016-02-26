@@ -1,11 +1,11 @@
 /*************************************************************
 Author: Jefferson Dionisio
-Last Edit: February 10, 2016
-Title: Snake Speed
+Last Edit: February 27, 2016
+Game: Breakout
 
-Credits:
-Music: Kyle Landry - Kingdom Hearts - Dearly Beloved (cover)
-
+Credits: Arcade Bloop Sound Effect - https://www.youtube.com/watch?v=cDcG9V-C5i4
+		 Nobuo Uematsu - To Zanarkand - https://www.youtube.com/watch?v=AgCrwvHPw-M
+		 Nobuo Uematsu - Besaid Island - https://www.youtube.com/watch?v=XG93NDv96os
 **************************************************************/
 
 #include "AppDelegate.h"
@@ -25,7 +25,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	if (!glview) {
-		glview = GLViewImpl::create("Hello World");
+		glview = GLViewImpl::create("Breakout");
 		glview->setFrameSize(640, 640);
 		director->setOpenGLView(glview);
 	}
