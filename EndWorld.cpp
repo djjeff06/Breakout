@@ -2,7 +2,8 @@
 #include "Breakout.h"
 #include <SimpleAudioEngine.h>
 
-; USING_NS_CC;
+using namespace cocos2d;
+using namespace std;
 
 
 Scene* EndWorld::createScene()
@@ -23,12 +24,28 @@ bool EndWorld::init()
 		return false;
 	}
 
+	int highscore = 0;
+	FILE* fp = fopen("score.txt", "r");
+	fscanf(fp, "%d", &highscore);
+	fclose(fp);
+
 	auto label = Label::createWithSystemFont("Game Over\n", "Arial", 64);
-	label->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
-	label->setPosition(Vec2(325, 300));
+	label->setAnchorPoint(Vec2(0.5, 0.5));
+	label->setPosition(Vec2(325, 400));
 	this->addChild(label, 1);
+
+	auto lbl_scorelbl = Label::createWithSystemFont("High Score: ", "Arial", 64);
+	lbl_scorelbl->setAnchorPoint(Vec2(0.5, 0.5));
+	lbl_scorelbl ->setPosition(Vec2(325, 320));
+	this->addChild(lbl_scorelbl);
+
+	auto lbl_score = Label::createWithSystemFont(std::to_string(highscore), "arial", 64);
+	lbl_score->setAnchorPoint(Vec2(0.5, 0.5));
+	lbl_score->setPosition(Vec2(520,320));
+	this->addChild(lbl_score);
+
 	auto playlabel = Label::createWithSystemFont("Play Again?","Arial",64);
-	playlabel->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
+	playlabel->setAnchorPoint(Vec2(0.5, 0.5));
 	playlabel->setPosition(Vec2(325, 200));
 	this->addChild(playlabel);
 

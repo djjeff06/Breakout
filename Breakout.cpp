@@ -1,10 +1,11 @@
 #include "Breakout.h"
 #include "EndWorld.h"
 
-USING_NS_CC;
+using namespace cocos2d;
+using namespace std;
 
 static boolean check,start;
-static int highscore,life,bricks;
+static int currentscore,life,bricks;
 
 Scene* Breakout::createScene()
 {
@@ -34,7 +35,7 @@ bool Breakout::init() {
 	start = false;
 	check = true;
 	life = 2;
-	highscore = 0;
+	currentscore = 0;
 	bricks = 112;
 
 	auto lbl_scorelbl = Label::createWithSystemFont("Score: ", "arial", 32);
@@ -42,7 +43,7 @@ bool Breakout::init() {
 	lbl_scorelbl->setPosition(520, 600);
 	this->addChild(lbl_scorelbl , 2);
 
-	auto lbl_score = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+	auto lbl_score = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 	lbl_score->setAnchorPoint(Vec2(0.5, 0.5));
 	lbl_score->setPosition(580,600);
 	this->addChild(lbl_score, 2);
@@ -56,6 +57,11 @@ bool Breakout::init() {
 	lbl_life->setAnchorPoint(Vec2(0.5, 0.5));
 	lbl_life->setPosition(140, 600);
 	this->addChild(lbl_life, 2);
+
+	auto prompt = Label::createWithSystemFont("Press Spacebar to deploy a ball!", "arial", 16);
+	prompt->setAnchorPoint(Vec2(0.5, 0.5));
+	prompt->setPosition(300, 600);
+	this->addChild(prompt);
 	
 	auto platform = Sprite::create("platform.jpg");
 	platform->setPosition(320, 70);
@@ -192,22 +198,22 @@ bool Breakout::init() {
 
 			if (start == false) {
 
-				auto ball = Sprite::create("ball.png");
-				ball->setPosition(150, 400);
-				auto pb_ball = PhysicsBody::createCircle(ball->getContentSize().width / 2, PhysicsMaterial(0.1f, 1.0f, 0.0f));
-				pb_ball->setDynamic(true);
-				//pb_ball->setLinearDamping(0.0);
-				pb_ball->setVelocity(Vec2(100, -150));
-				pb_ball->setCollisionBitmask(2);
-				pb_ball->setContactTestBitmask(true);
-				ball->setPhysicsBody(pb_ball);
-				this->addChild(ball, 1);
-				this->removeChild(lbl_life);
-				auto lbl_life = Label::createWithSystemFont(std::to_string(life), "arial", 32);
-				lbl_life->setAnchorPoint(Vec2(0.5, 0.5));
-				lbl_life->setPosition(140, 600);
-				this->addChild(lbl_life, 2);
-				start = true;
+					auto ball = Sprite::create("ball.png");
+					ball->setPosition(150, 400);
+					auto pb_ball = PhysicsBody::createCircle(ball->getContentSize().width / 2, PhysicsMaterial(0.1f, 1.0f, 0.0f));
+					pb_ball->setDynamic(true);
+					//pb_ball->setLinearDamping(0.0);
+					pb_ball->setVelocity(Vec2(100, -150));
+					pb_ball->setCollisionBitmask(2);
+					pb_ball->setContactTestBitmask(true);
+					ball->setPhysicsBody(pb_ball);
+					this->addChild(ball, 1);
+					this->removeChild(lbl_life);
+					auto lbl_life = Label::createWithSystemFont(std::to_string(life), "arial", 32);
+					lbl_life->setAnchorPoint(Vec2(0.5, 0.5));
+					lbl_life->setPosition(140, 600);
+					this->addChild(lbl_life, 2);
+					start = true;
 
 				auto removeBrick = CallFunc::create([yellowbrick1,yellowbrick2,greenbrick1,greenbrick2,orangebrick1,orangebrick2,redbrick1,redbrick2,ball,lbl_score,this]() {
 
@@ -221,11 +227,11 @@ bool Breakout::init() {
 
 							yellowbrick1->at(i)->setPosition(580, 600);
 							this->removeChild(yellowbrick1->at(i));
-							highscore++;
+							currentscore++;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -239,11 +245,11 @@ bool Breakout::init() {
 
 							yellowbrick2->at(i)->setPosition(580, 600);
 							this->removeChild(yellowbrick2->at(i));
-							highscore++;
+							currentscore++;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -257,11 +263,11 @@ bool Breakout::init() {
 
 							greenbrick1->at(i)->setPosition(580, 600);
 							this->removeChild(greenbrick1->at(i));
-							highscore += 3;
+							currentscore += 3;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -275,11 +281,11 @@ bool Breakout::init() {
 
 							greenbrick2->at(i)->setPosition(580, 600);
 							this->removeChild(greenbrick2->at(i));
-							highscore += 3;
+							currentscore += 3;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -293,11 +299,11 @@ bool Breakout::init() {
 
 							orangebrick1->at(i)->setPosition(580, 600);
 							this->removeChild(orangebrick1->at(i));
-							highscore += 5;
+							currentscore += 5;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -311,11 +317,11 @@ bool Breakout::init() {
 
 							orangebrick2->at(i)->setPosition(580, 600);
 							this->removeChild(orangebrick2->at(i));
-							highscore += 5;
+							currentscore += 5;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -329,11 +335,11 @@ bool Breakout::init() {
 
 							redbrick1->at(i)->setPosition(580, 600);
 							this->removeChild(redbrick1->at(i));
-							highscore += 5;
+							currentscore += 5;
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -350,7 +356,7 @@ bool Breakout::init() {
 							check = false;
 
 							this->removeChild(lbl_score);
-							auto label = Label::createWithSystemFont(std::to_string(highscore), "arial", 32);
+							auto label = Label::createWithSystemFont(std::to_string(currentscore), "arial", 32);
 							label->setAnchorPoint(Vec2(0.5, 0.5));
 							label->setPosition(580, 600);
 							this->addChild(label, 2);
@@ -373,6 +379,18 @@ bool Breakout::init() {
 
 							auto scene = EndWorld::createScene();
 							this->removeChild(lbl_life);
+							int storage = 0;
+							FILE *fp;
+							fp = fopen("score.txt","r");
+							fscanf(fp,"%d",&storage);
+							fclose(fp);
+							if (currentscore > storage) {
+
+								fp = fopen("score.txt", "w");
+								fprintf(fp, "%d", currentscore);
+								fclose(fp);
+
+							}
 
 							Director::getInstance()->replaceScene(scene);
 
